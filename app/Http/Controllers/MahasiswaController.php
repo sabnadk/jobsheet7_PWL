@@ -13,15 +13,22 @@ class MahasiswaController extends Controller
     public function index()
     {
         //
-        $mahasiswa = Mahasiswa::all(); //mengambil semua isi tabel
-        $posts = Mahasiswa::orderBy('nim', 'desc')->paginate(6);
-        return view('mahasiswa.index', compact('mahasiswa'));
-        with('i', (request()->input('page', 1) - 1) * 5);
+        $mahasiswa = Mahasiswa::orderBy('nim', 'desc')->paginate(5); //mengambil semua isi tabel
+        $posts = Mahasiswa::orderBy('nim', 'desc')->paginate(5);
+        return view('mahasiswa.index', compact('posts'));
+        //with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     /**
      * Show the form for creating a new resource.
      */
+public function search(Request $request)
+    {
+        $cari = $request->search;
+        $posts = Mahasiswa::where('nama', 'LIKE', '%' . $cari . '%')->paginate(5);
+        return view('mahasiswa.index', ['posts' => $posts]);
+    }
+
     public function create()
     {
         //
@@ -40,6 +47,8 @@ class MahasiswaController extends Controller
             'kelas' => 'required',
             'jurusan' => 'required',
             'noHp' => 'required',
+            'email' => 'required',
+            'tanggalLahir' => 'required',
         ]);
         //fungsi eloquent untuk menambah data
         Mahasiswa::create($request->all());
@@ -81,6 +90,8 @@ class MahasiswaController extends Controller
             'kelas' => 'required',
             'jurusan' => 'required',
             'noHp' => 'required',
+            'email' => 'required',
+            'tanggalLahir' => 'required',
         ]);
 
         //fungsi eloquent untuk mengupdate data inputan kita
@@ -88,7 +99,7 @@ class MahasiswaController extends Controller
 
         //jika data berhasil diupdate, akan kembali ke halaman utama
         return redirect()->route('mahasiswa.index')
-        -with('success', 'Mahasiswa Berhasil Diupdate');
+        ->with('success', 'Mahasiswa Berhasil Diupdate');
     }
 
     /**

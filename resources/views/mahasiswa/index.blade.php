@@ -5,7 +5,12 @@
  <div class="pull-left mt-2">
  <h2>JURUSAN TEKNOLOGI INFORMASI-POLITEKNIK NEGERI MALANG</h2>
  </div>
+
  <div class="float-right my-2">
+ <form class="d-flex" role="search" method="GET" action="/search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
  <a class="btn btn-success" href="{{ route('mahasiswa.create') }}"> Input Mahasiswa</a>
  </div>
  </div>
@@ -30,9 +35,11 @@
  <th>Kelas</th>
  <th>Jurusan</th>
  <th>No_Handphone</th>
+ <th>Email</th>
+ <th>Tanggal_Lahir</th>
  <th width="280px">Action</th>
  </tr>
- @foreach ($mahasiswa as $Mahasiswa)
+ @foreach ($posts as $Mahasiswa)
  <tr>
  
  <td>{{ $Mahasiswa->nim }}</td>
@@ -40,6 +47,8 @@
  <td>{{ $Mahasiswa->kelas }}</td>
  <td>{{ $Mahasiswa->jurusan }}</td>
  <td>{{ $Mahasiswa->noHp }}</td>
+ <td>{{ $Mahasiswa->email }}</td>
+ <td>{{ $Mahasiswa->tanggalLahir }}</td>
  <td>
  <form action="{{ route('mahasiswa.destroy',$Mahasiswa->nim) }}" method="POST">
  
@@ -53,4 +62,6 @@
  </tr>
  @endforeach
  </table>
-@endsection
+
+ {{$posts->links('pagination::bootstrap-4')}}
+@endsection 
